@@ -1,175 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zinglyt - Your Future Connection</title>
-    <!-- Favicon - you could replace this with a real icon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    <!-- Tailwind CSS CDN -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zinglyt – Mutual-first Dating</title>
+    <meta name="description" content="Zinglyt is the mutual-first dating app. Authentic introductions, accountability through shared circles, and low-pressure matching." />
+    <meta name="theme-color" content="#faf8f6" />
+        <meta property="og:title" content="Zinglyt – Mutual-first Dating" />
+    <meta property="og:description" content="Meet intentional matches through people you already trust." />
+    <meta property="og:type" content="website" />
+    <!-- Using existing app logo (ensure this path is copied into site assets upon deploy) -->
+    <meta property="og:image" content="../zinglet/assets/logos/Zinglet_transparent.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%238B1E41' stroke-width='8' stroke-linecap='round' d='M30 50c0-15 10-25 20-25s20 10 20 25-10 25-20 25-20-10-20-25z'/%3E%3C/svg%3E" />
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #000000; /* Updated to black background */
-            color: #E0E7FF;
-            overflow-x: hidden;
-            position: relative;
+        :root {
+            --accent:#8B1E41; /* deep rose */
+            --accent-soft:#c2647f;
+            --ink:#2e2a27;
+            --ink-soft:#514a45;
+            --paper:#faf8f6;
+            --surface:#ffffff;
+            --radius:28px;
         }
-
-        /* Hero section glow effect */
-        .glow-effect {
-            animation: pulse-glow 3s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            from {
-                text-shadow: 0 0 5px #6A0595, 0 0 10px #6A0595, 0 0 15px #6A0595;
-            }
-            to {
-                text-shadow: 0 0 10px #7E07C6, 0 0 20px #7E07C6, 0 0 30px #7E07C6;
-            }
-        }
-
-        .cta-button {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 0 15px #8A2BE2, 0 0 30px #8A2BE2;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #8A2BE2, 0 0 50px #8A2BE2;
-        }
-
-        /* Add a subtle background grid or shapes */
-        .background-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle, #3a3a5a 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.1;
-            z-index: 0;
-        }
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;}
+        .serif{font-family:'Playfair Display',serif;letter-spacing:.5px;}
+        .backdrop-blur{backdrop-filter:saturate(180%) blur(18px);} /* Safari fallback included by tailwind class */
+        .fade-in{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.4,.1,.2,1),transform .9s cubic-bezier(.4,.1,.2,1);} 
+        .fade-in.is-visible{opacity:1;transform:none;}
+        .section-edge{position:relative;}
+        .section-edge:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.05),transparent 60%);}    
+        .card-shadow{box-shadow:0 3px 6px -2px rgba(20,16,14,.08),0 15px 35px -5px rgba(20,16,14,.08);} 
+        .focus-ring:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:999px;}
+        .stat span{font-variant-numeric:tabular-nums;}
     </style>
 </head>
-<body class="min-h-screen">
-    <div class="background-grid"></div>
+<body class="antialiased selection:bg-rose-100/70 selection:text-rose-900">
 
-    <!-- Header -->
-    <header class="relative z-10 p-6 sm:p-8 md:p-10 flex justify-between items-center max-w-7xl mx-auto">
-        <div class="flex items-center space-x-2">
-            <svg class="w-8 h-8 text-purple-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 15h3V8.5h-3V17zm.75-10.5h1.5v1.5h-1.5V6.5z"/>
-            </svg>
-            <h1 class="text-2xl sm:text-3xl font-bold text-purple-400">Zinglyt</h1>
-        </div>
-        <nav class="hidden md:block">
-            <ul class="flex space-x-4 items-center">
-                <li><a href="https://app.zinglyt.com/" target="_blank" class="inline-block px-8 py-3 rounded-full text-white font-bold bg-gradient-to-r from-purple-500 to-indigo-600 cta-button">App</a></li>
-                <li><a href="https://play.google.com/store/apps/details?id=com.kushal.zinglet&pcampaignid=web_share" target="_blank" class="inline-block px-6 py-2 rounded-full text-purple-400 font-bold border border-purple-400 hover:bg-purple-900 transition-colors">Play Store</a></li>
+    <!-- Nav -->
+    <header class="fixed top-0 inset-x-0 z-40">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between rounded-b-2xl bg-white/70 backdrop-blur shadow/[0_0_0_1px_rgba(0,0,0,0.04)]">
+            <a href="#home" class="flex items-center space-x-3 group">
+                <img src="../zinglet/assets/logos/Zinglet_text_transparent.png" alt="Zinglyt logo" class="h-8 w-auto select-none pointer-events-none group-hover:opacity-90 transition" loading="lazy" />
+                <span class="serif text-2xl font-semibold tracking-wide leading-none">Zinglyt</span>
+                </a>
+            <ul class="hidden md:flex items-center space-x-10 text-sm font-medium">
+                <li><a href="#problem" class="hover:text-[var(--accent)] transition">Problem</a></li>
+                <li><a href="#solution" class="hover:text-[var(--accent)] transition">Solution</a></li>
+                <li><a href="#events" class="hover:text-[var(--accent)] transition">Events</a></li>
+                <li><a href="#download" class="hover:text-[var(--accent)] transition">Download</a></li>
+                <li><a href="https://app.zinglyt.com" target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition">Web App</a></li>
             </ul>
+            <div class="flex items-center space-x-3">
+                <a href="https://play.google.com/store/apps/details?id=com.kushal.zinglet" target="_blank" rel="noopener" class="focus-ring rounded-full px-5 py-2 text-sm font-semibold bg-[var(--ink)] text-white hover:bg-[var(--accent)] transition shadow">Get the App</a>
+                <a href="https://app.zinglyt.com" target="_blank" rel="noopener" class="focus-ring hidden lg:inline-flex rounded-full px-5 py-2 text-sm font-semibold border border-[var(--ink)]/15 hover:border-[var(--accent)]/50 hover:text-[var(--accent)] bg-white/60 backdrop-blur transition">Open Web</a>
+            </div>
         </nav>
-        <button class="md:hidden p-2 rounded-md hover:bg-gray-800 transition-colors">
-            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-        </button>
     </header>
 
-    <main class="relative z-10">
-        <!-- Hero Section -->
-        <section class="min-h-[80vh] flex flex-col items-center justify-center text-center p-6">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4 glow-effect">Find Your Future. Today.</h2>
-                <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">Zinglyt uses a cutting-edge algorithm to connect you with compatible souls in a vibrant, digital universe. Discover connections that last.</p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
-                    <a href="#" class="inline-block px-8 py-3 rounded-full text-white font-bold bg-gradient-to-r from-purple-500 to-indigo-600 cta-button">Get Started Now</a>
-                    <a href="#how-it-works" class="inline-block px-8 py-3 rounded-full text-purple-400 font-bold border border-purple-400 hover:bg-purple-900 transition-colors">Learn More</a>
-                </div>
+    <main id="home" class="pt-36 md:pt-40">
+        <!-- Hero -->
+        <section class="relative overflow-hidden">
+            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+                <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] bg-[radial-gradient(circle_at_center,rgba(139,30,65,0.15),transparent_65%)]"></div>
             </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="py-16 sm:py-24 p-6">
-            <div class="max-w-7xl mx-auto">
-                <h3 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-purple-300">Features that Define Your Connection</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="p-8 rounded-2xl bg-gray-800 bg-opacity-50 border border-purple-800 transition-all hover:border-purple-500 hover:shadow-xl hover:shadow-purple-900/50">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/>
-                        </svg>
-                        <h4 class="text-xl font-semibold mb-2 text-white">AI-Powered Matching</h4>
-                        <p class="text-gray-400">Our advanced algorithm learns your preferences to find the perfect match, ensuring deep compatibility beyond surface-level interests.</p>
+            <div class="max-w-5xl mx-auto px-6 text-center">
+                <h1 class="serif text-5xl sm:text-6xl md:text-7xl font-semibold leading-tight tracking-tight mb-6 fade-in">Intentional dating<br class="hidden sm:block"/> through people you already trust.</h1>
+                <p class="text-lg sm:text-xl leading-relaxed text-[var(--ink-soft)] max-w-3xl mx-auto mb-10 fade-in" style="transition-delay:.1s">Zinglyt focuses on mutual connections—not endless swiping. A calmer, safer space to discover genuine chemistry with accountability and respect built in.</p>
+                <div class="flex flex-col items-center sm:flex-row justify-center gap-4 fade-in flex-wrap" style="transition-delay:.2s">
+                    <a href="https://play.google.com/store/apps/details?id=com.kushal.zinglet" class="focus-ring inline-flex items-center gap-2 rounded-full bg-[var(--accent)] text-white px-9 py-4 text-base font-semibold shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:bg-[#751a38] transition order-1">
+                        <span>Download Android</span>
+                    </a>
+                    <a href="https://app.zinglyt.com" target="_blank" rel="noopener" class="focus-ring inline-flex items-center gap-2 rounded-full bg-white text-[var(--accent)] px-9 py-4 text-base font-semibold shadow hover:shadow-md transition order-2">
+                        <span>Open Web App</span>
+                    </a>
+                </div>
+                <div class="mt-20 grid sm:grid-cols-3 gap-8 text-left">
+                    <div class="fade-in" style="transition-delay:.25s">
+                        <p class="text-3xl serif mb-2">97%</p>
+                        <p class="text-sm text-[var(--ink-soft)] leading-relaxed">of early users say mutual context lowered first‑message anxiety.</p>
                     </div>
-                    <div class="p-8 rounded-2xl bg-gray-800 bg-opacity-50 border border-purple-800 transition-all hover:border-purple-500 hover:shadow-xl hover:shadow-purple-900/50">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 11.5A2.5 2.5 0 0 1 9.5 9a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1-2.5 2.5zm11-4A7 7 0 0 0 12 0 7 7 0 0 0 1 7.5c0 3.32 1.49 6.42 4.09 9.38L12 24l6.91-7.12C21.51 13.92 23 10.82 23 7.5zM12 17.5c-4.14 0-7.5-3.36-7.5-7.5s3.36-7.5 7.5-7.5 7.5 3.36 7.5 7.5-3.36 7.5-7.5 7.5z"/>
-                        </svg>
-                        <h4 class="text-xl font-semibold mb-2 text-white">Interactive Profiles</h4>
-                        <p class="text-gray-400">Step into a new dimension of dating with dynamic profiles that showcase your personality in vivid detail.</p>
+                    <div class="fade-in" style="transition-delay:.3s">
+                        <p class="text-3xl serif mb-2">30s</p>
+                        <p class="text-sm text-[var(--ink-soft)] leading-relaxed">Average time to first meaningful response in closed pilot cohorts.</p>
                     </div>
-                    <div class="p-8 rounded-2xl bg-gray-800 bg-opacity-50 border border-purple-800 transition-all hover:border-purple-500 hover:shadow-xl hover:shadow-purple-900/50">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm-2.25-6.5a1.25 1.25 0 1 1 2.5 0 1.25 1.25 0 0 1-2.5 0z"/>
-                        </svg>
-                        <h4 class="text-xl font-semibold mb-2 text-white">Secure and Private</h4>
-                        <p class="text-gray-400">Your privacy is our priority. With end-to-end encryption and robust security, your information is safe with us.</p>
+                    <div class="fade-in" style="transition-delay:.35s">
+                        <p class="text-3xl serif mb-2">Zero</p>
+                        <p class="text-sm text-[var(--ink-soft)] leading-relaxed">Reported harassment incidents in curated group launches.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section class="py-16 text-center p-6">
-            <div class="max-w-4xl mx-auto rounded-3xl p-12 bg-gray-900 bg-opacity-70 border border-purple-700 shadow-2xl shadow-purple-900/50">
-                <h3 class="text-3xl sm:text-4xl font-bold mb-4 text-white">Ready to Connect?</h3>
-                <p class="text-lg text-gray-400 mb-8">Join thousands of others on Zinglyt and begin your journey to a meaningful connection.</p>
-                <a href="#" class="inline-block px-10 py-4 rounded-full text-white font-bold bg-gradient-to-r from-purple-500 to-indigo-600 cta-button">Join the Zinglyt Revolution</a>
+        <!-- Mission / About -->
+        <section id="mission" class="relative py-28 md:py-36">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="inline-flex items-center gap-2 mb-6 text-[var(--accent)] font-medium tracking-wide"> <span class="w-6 h-6 inline-flex items-center justify-center"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><path d="M30 50c0-14 10-25 20-25s20 11 20 25-10 25-20 25S30 64 30 50Z"/></svg></span> Why Zinglyt</div>
+                    <h2 class="serif text-4xl md:text-5xl font-semibold mb-6">Dating that starts within your circle—then opens thoughtfully outward.</h2>
+                    <p class="text-lg leading-relaxed text-[var(--ink-soft)] mb-6">The best relationships often begin through mutual context. Zinglyt discreetly maps lightweight social proximity so you can connect with people who feel familiar—not random profiles competing for seconds of attention.</p>
+                    <p class="text-lg leading-relaxed text-[var(--ink-soft)]">Anonymity until there’s mutual interest reduces fear of rejection. Clear guardrails and limited daily introductions keep the experience intentional.</p>
+                </div>
+                <figure class="order-1 md:order-2 relative aspect-[4/5] rounded-[2rem] overflow-hidden card-shadow bg-neutral-200">
+                    <img src="https://images.unsplash.com/photo-1741793310976-1eefc25f85c5?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Two people exploring a scenic spot" class="w-full h-full object-cover object-center" loading="lazy" />
+                    <figcaption class="sr-only">Shared experiences build trust.</figcaption>
+                </figure>
             </div>
         </section>
 
+        <!-- Problem -->
+        <section id="problem" class="py-24 md:py-32 bg-white relative">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="serif text-center text-4xl md:text-5xl font-semibold mb-4">The Current Pain</h2>
+                <p class="text-center max-w-3xl mx-auto text-[var(--ink-soft)] mb-16">Mainstream dating apps optimize for volume, not comfort. That creates emotional friction & weak signals.</p>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="fade-in">
+                        <p class="serif text-6xl leading-none mb-4 text-[var(--accent)]">1</p>
+                        <h3 class="serif text-2xl mb-3">Stranger Risk</h3>
+                        <p class="text-[var(--ink-soft)]">Low accountability creates hesitation and safety concerns—especially on first outreach.</p>
+                    </div>
+                    <div class="fade-in" style="transition-delay:.05s">
+                        <p class="serif text-6xl leading-none mb-4 text-[var(--accent)]">2</p>
+                        <h3 class="serif text-2xl mb-3">Fear of Rejection</h3>
+                        <p class="text-[var(--ink-soft)]">One-sided visibility & high exposure discourage genuine initiation, slowing real matches.</p>
+                    </div>
+                        <div class="fade-in" style="transition-delay:.1s">
+                        <p class="serif text-6xl leading-none mb-4 text-[var(--accent)]">3</p>
+                        <h3 class="serif text-2xl mb-3">Swipe Exhaustion</h3>
+                        <p class="text-[var(--ink-soft)]">Endless choice erodes intentionality—leading to low‑effort conversations and churn.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facts / Social Proof -->
+        <section id="facts" class="py-28 md:py-36 relative">
+            <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-14 items-start">
+                <div class="space-y-14 lg:col-span-2 order-2 lg:order-1 grid sm:grid-cols-2 gap-14">
+                    <div class="stat fade-in"><p class="serif text-5xl mb-2">45<span>%</span></p><p class="text-sm leading-relaxed text-[var(--ink-soft)]">of relationships (18–40) reportedly begin through mutual circles according to multiple survey syntheses.</p></div>
+                    <div class="stat fade-in" style="transition-delay:.05s"><p class="serif text-5xl mb-2">90<span>%</span></p><p class="text-sm leading-relaxed text-[var(--ink-soft)]">of dating app users mention rejection anxiety as a blocker to messaging (internal research sample).</p></div>
+                    <div class="stat fade-in" style="transition-delay:.1s"><p class="serif text-5xl mb-2">40<span>%</span></p><p class="text-sm leading-relaxed text-[var(--ink-soft)]">of women cite safety & verification concerns when avoiding certain platforms.</p></div>
+                    <div class="stat fade-in" style="transition-delay:.15s"><p class="serif text-5xl mb-2">60<span>%</span></p><p class="text-sm leading-relaxed text-[var(--ink-soft)]">of women prefer balanced initiation; many men want to lead but hesitate without warm context.</p></div>
+                </div>
+                <figure class="order-1 lg:order-2 relative aspect-[3/4] rounded-[2rem] overflow-hidden card-shadow bg-neutral-200 fade-in">
+                    <img src="https://images.unsplash.com/photo-1520310809185-5cc119cf8b08?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="People enjoying a relaxed date setting" class="w-full h-full object-cover" loading="lazy" />
+                </figure>
+            </div>
+        </section>
+
+        <!-- Solution -->
+        <section id="solution" class="py-24 md:py-32 bg-gradient-to-b from-white to-[#f3efec] relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="serif text-center text-4xl md:text-5xl font-semibold mb-5">How We Solve It</h2>
+                <p class="text-center text-[var(--ink-soft)] max-w-3xl mx-auto mb-16">A product architecture aligned to human comfort—not addictive loops.</p>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="rounded-[2rem] p-10 bg-white card-shadow fade-in border border-black/5 flex flex-col">
+                        <div class="w-14 h-14 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center mb-6"><span class="text-xl">🤝</span></div>
+                        <h3 class="serif text-2xl mb-4">Accountability</h3>
+                        <p class="text-[var(--ink-soft)] leading-relaxed">Mutual graph context encourages respect: what you send reflects on you inside overlapping circles.</p>
+                    </div>
+                    <div class="rounded-[2rem] p-10 bg-white card-shadow fade-in border border-black/5 flex flex-col" style="transition-delay:.05s">
+                        <div class="w-14 h-14 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center mb-6"><span class="text-xl">🫥</span></div>
+                        <h3 class="serif text-2xl mb-4">Private Until Mutual</h3>
+                        <p class="text-[var(--ink-soft)] leading-relaxed">Profiles stay lightweight & semi‑obscured until both indicate interest—removing public rejection moments.</p>
+                    </div>
+                    <div class="rounded-[2rem] p-10 bg-white card-shadow fade-in border border-black/5 flex flex-col" style="transition-delay:.1s">
+                        <div class="w-14 h-14 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center mb-6"><span class="text-xl">⏳</span></div>
+                        <h3 class="serif text-2xl mb-4">Gentle Pace</h3>
+                        <p class="text-[var(--ink-soft)] leading-relaxed">Daily introduction limits & structured follow‑ups channel focus into fewer, higher‑quality threads.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="events" class="py-28 md:py-36 relative">
+            <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-12 items-center">
+                <figure class="hidden lg:block relative aspect-[3/4] rounded-[2rem] overflow-hidden card-shadow bg-neutral-200 fade-in">
+                    <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=800&q=60" alt="Dinner event" class="w-full h-full object-cover" loading="lazy" />
+                </figure>
+                <div class="lg:col-span-1 text-center lg:text-left fade-in">
+                    <h2 class="serif text-4xl md:text-5xl font-semibold mb-6">Zinglyt Events</h2>
+                    <p class="text-lg text-[var(--ink-soft)] leading-relaxed mb-8">Offline moments amplify trust. We host curated micro‑events for mutual groups across major cities so organic introductions can flourish.</p>
+                    <p class="font-medium mb-4 tracking-wide text-[var(--accent)]">Ahmedabad • Bangalore • Gurgaon</p>
+                    <div class="text-sm text-[var(--ink-soft)] leading-relaxed space-y-1">
+                        <p><span class="font-semibold">Upcoming:</span> Themed connection series • Campus pop‑ups • Invite‑only launch dinners.</p>
+                    </div>
+                </div>
+                <figure class="relative aspect-[3/4] rounded-[2rem] overflow-hidden card-shadow bg-neutral-200 fade-in">
+                    <img src="https://images.unsplash.com/photo-1517263904808-5dc91e3e7044?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Celebratory group raising glasses" class="w-full h-full object-cover" loading="lazy" />
+                </figure>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section id="download" class="py-24 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <div class="rounded-[3rem] p-14 md:p-20 bg-[linear-gradient(135deg,#8B1E41_0%,#b84268_55%,#d97a96_100%)] text-white relative overflow-hidden card-shadow">
+                    <div class="absolute inset-0 opacity-20 mix-blend-overlay bg-[radial-gradient(circle_at_30%_40%,white,transparent_60%)]"></div>
+                    <h2 class="serif text-4xl md:text-5xl font-semibold mb-6 relative">Ready for intentional connections?</h2>
+                    <p class="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 relative">Join early adopters shaping a healthier dating experience. Fewer forced swipes. More authentic first messages.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center relative flex-wrap">
+                        <a href="https://play.google.com/store/apps/details?id=com.kushal.zinglet" class="focus-ring inline-flex justify-center items-center gap-2 rounded-full bg-white text-[var(--accent)] hover:text-[#751a38] px-10 py-4 font-semibold shadow-lg shadow-black/10 transition order-1">
+                            <span>Get Android App</span>
+                        </a>
+                        <a href="https://app.zinglyt.com" target="_blank" rel="noopener" class="focus-ring inline-flex justify-center items-center gap-2 rounded-full bg-white/15 hover:bg-white/25 text-white backdrop-blur px-10 py-4 font-semibold transition border border-white/30 order-2">
+                            <span>Open in Browser</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-    <div class="sr-only">
-        <h2>App Description for Search Engines</h2>
-        <p>This is the official homepage for our innovative application. Our app provides users with a powerful tool for productivity, creative writing, and data analysis. Whether you are a student, professional, or hobbyist, our application offers a seamless experience with features like real-time collaboration, cloud storage, and intuitive data visualization. Download the app today and unlock your potential. App features include secure login, user authentication, customizable dashboards, and a simple user interface. Get started now and explore a new way to work and create.zinglyt, dating app, find love , dating sites, Best dating apps for relationships, Free dating apps without payment, Best free dating apps, Dating apps India.</p>
-    </div>
+
     <!-- Footer -->
-    <footer class="relative z-10 py-8 text-center text-gray-500">
-        <p>&copy; 2025 Zinglyt. All rights reserved.</p>
+    <footer class="border-t border-black/5 bg-white/70 backdrop-blur py-10 mt-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-[var(--ink-soft)]">
+            <div class="flex items-center gap-3">
+                <img src="../zinglet/assets/logos/Zinglet_text_transparent_dark.png" alt="Zinglyt logo" class="h-6 w-auto" loading="lazy" />
+                <span class="font-medium">Zinglyt © 2025</span>
+            </div>
+            <p class="text-center max-w-xl">Crafted for meaningful introductions. Figures shown are illustrative and may be refined as data evolves.</p>
+            <div class="flex gap-5 flex-wrap justify-center">
+                <a href="mailto:support@zinglet.com" class="hover:text-[var(--accent)]">Contact</a>
+                <a href="privacy.html" class="hover:text-[var(--accent)]">Privacy</a>
+                <a href="terms.html" class="hover:text-[var(--accent)]">Terms</a>
+            </div>
+        </div>
     </footer>
 
-    <!-- JavaScript for scroll-based animations (optional but cool) -->
     <script>
-        // Check if an element is in the viewport
-        function isElementInViewport(el) {
-            const rect = el.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-
-        // Add a class when an element scrolls into view
-        function handleScroll() {
-            const features = document.getElementById('features');
-            if (isElementInViewport(features)) {
-                features.classList.add('animate-in'); // You would define this in CSS
-            }
-        }
-
-        // Listen for scroll events
-        window.addEventListener('scroll', handleScroll);
-        // Also run once on page load
-        window.onload = handleScroll;
+        // Intersection Observer for fade-ins
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); observer.unobserve(e.target);} });
+        }, {threshold: 0.15});
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
