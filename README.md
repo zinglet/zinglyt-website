@@ -1,2 +1,2 @@
 # website
-website for Zinglyt
+## website for Zinglyt
