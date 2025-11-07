@@ -39,6 +39,28 @@
         .card-shadow{box-shadow:0 3px 6px -2px rgba(20,16,14,.08),0 15px 35px -5px rgba(20,16,14,.08);} 
         .focus-ring:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:999px;}
         .stat span{font-variant-numeric:tabular-nums;}
+        
+        /* Typing animation */
+        .typing-container {
+            display: inline-block;
+            position: relative;
+        }
+        .typing-text {
+            display: inline;
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background-color: var(--accent);
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-rose-100/70 selection:text-rose-900">
@@ -71,8 +93,16 @@
                 <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] bg-[radial-gradient(circle_at_center,rgba(139,30,65,0.15),transparent_65%)]"></div>
             </div>
             <div class="max-w-5xl mx-auto px-6 text-center">
-                <h1 class="serif text-5xl sm:text-6xl md:text-7xl font-semibold leading-tight tracking-tight mb-6 fade-in">Connections<br class="hidden sm:block"/> within circles you already trust.</h1>
-                <p class="text-lg sm:text-xl leading-relaxed text-[var(--ink-soft)] max-w-3xl mx-auto mb-10 fade-in" style="transition-delay:.1s">Zinglyt is your private scrapbook of connections across campus, workplace, and neighborhood. A warm, intelligent space for intentional interactions—quiet, respectful, and free from the noise.</p>
+                <h1 class="serif text-5xl sm:text-6xl md:text-7xl font-semibold leading-tight tracking-tight mb-6 fade-in">
+                    <span class="typing-container">
+                        <span class="typing-text" id="typingText"></span><span class="typing-cursor" id="cursor1"></span>
+                    </span>
+                    <br class="hidden sm:block"/> 
+                    <span class="typing-container" id="secondLineContainer" style="opacity: 0;">
+                        <span class="typing-text" id="secondLine"></span><span class="typing-cursor" id="cursor2" style="display: none;"></span>
+                    </span>
+                </h1>
+                <p class="text-base sm:text-lg leading-relaxed text-[var(--ink-soft)] max-w-2xl mx-auto mb-10 fade-in" style="transition-delay:.1s">Zinglyt is your private scrapbook of connections across campus, workplace, and neighborhood. A warm, intelligent space for intentional interactions—quiet, respectful, and free from the noise.</p>
                 <div class="flex flex-col items-center sm:flex-row justify-center gap-4 fade-in flex-wrap" style="transition-delay:.2s">
                     <a href="https://app.zinglyt.com" class="focus-ring inline-flex items-center gap-2 rounded-full bg-[var(--accent)] text-white px-9 py-4 text-base font-semibold shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:bg-[#751a38] transition order-1">
                         <span>Open Zinglyt</span>
@@ -238,6 +268,57 @@
     </footer>
 
     <script>
+        // Typing animation for h1
+        const typeText = (element, text, speed = 80, callback) => {
+            let index = 0;
+            element.textContent = '';
+            
+            const type = () => {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                } else {
+                    // Call callback when typing completes
+                    if (callback) {
+                        setTimeout(callback, 200);
+                    }
+                }
+            };
+            
+            type();
+        };
+        
+        // Start typing animation on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const typingElement = document.getElementById('typingText');
+            const secondLineElement = document.getElementById('secondLine');
+            const secondLineContainer = document.getElementById('secondLineContainer');
+            const cursor1 = document.getElementById('cursor1');
+            const cursor2 = document.getElementById('cursor2');
+            
+            if (typingElement && secondLineElement) {
+                // Small delay before starting
+                setTimeout(() => {
+                    // Type first line
+                    typeText(typingElement, 'Connections', 90, () => {
+                        // Hide first cursor
+                        if (cursor1) cursor1.style.display = 'none';
+                        
+                        // Show second line container and cursor
+                        if (secondLineContainer) {
+                            secondLineContainer.style.opacity = '1';
+                            secondLineContainer.style.transition = 'opacity 0.3s ease-in';
+                        }
+                        if (cursor2) cursor2.style.display = 'inline-block';
+                        
+                        // Type second line
+                        typeText(secondLineElement, 'you already trust', 70);
+                    });
+                }, 300);
+            }
+        });
+        
         // Intersection Observer for fade-ins
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); observer.unobserve(e.target);} });
